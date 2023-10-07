@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "qrcode.react": "^3.1.0",
+    "react-icons": "^4.11.0",
+    "react-modal": "^3.16.1",
+    "react-qr-code": "^2.0.12",
+    "react-table": "^7.8.0"
+  }
+}

@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", sans-serif;
+}
+
+
+.reports,
+.products {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background-color: #000;
+  color: #fff;
+}
+
+/* Navbar CSS */
+.navbar {
+  background: #1baf59;
+  height: 70px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: #961f1f solid 2px;
+  background-color: #1baf59;
+  
+  
+}
+.search-bar {
+  flex: 1;
+  margin-right: 2.5rem; /* Adjust the width to take the available space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.search-bar input {
+  opacity: 1rem;
+  background: rgb(216, 214, 214);
+  width: 1000px;
+  padding: 10px 15px; /* Adjust the padding as needed */
+  border-radius: 5px; /* Adjust the border radius as needed */
+  border: none; /* Add a border for the input */
+  outline: none; /* Remove the default outline */
+
+}
+.search-bar span {
+    /* Styles for the "search" text */
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px; /* Adjust the spacing between the icon and the text */
+
+}
+.navbar-logo {
+  width: 150px; /* Set the width as per your logo size */
+  height: 70px; /* Set the height as per your logo size */
+  margin-left: 1rem; /* Adjust the margin as needed to separate the logo from other elements */
+  margin-bottom: 0.5rem;
+}
+.menu-bars {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  background: none;
+  color: #000;
+}
+
+.nav-menu {
+  background:rgb(122, 31, 31);
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+  z-index: 2;
+}
+
+.nav-menu.active {
+  left: 0;
+  transition: 450ms;
+}
+
+.nav-text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+}
+
+.nav-text a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+}
+
+.nav-text a:hover {
+  background:#ffffff;
+  color: #247c4c;
+}
+
+.nav-menu-items {
+  width: 100%;
+}
+
+.navbar-toggle {
+  background: transparent;
+  width: 100%;
+  height: 80px;
+  margin-left: 11rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+span {
+  margin-left: 16px;
+}

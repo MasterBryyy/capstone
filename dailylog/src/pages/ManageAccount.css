@@ -1,0 +1,57 @@
+/* ManageAccount.css */
+
+/* Styling for the container */
+.addbtn-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+  
+  /* Styling for the "Add" button */
+  .addbtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+  
+  /* Styling for the table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  /* Styling for table headers */
+  .table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  /* Styling for table cells */
+  .table td {
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px;
+  }
+  
+  /* Styling for odd rows */
+  .table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Styling for even rows */
+  .table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+  
+  /* Styling for "No data available" message */
+  .table td[colspan="4"] {
+    text-align: center;
+    padding: 20px;
+  }
+  
