@@ -1,0 +1,36 @@
+/* MyCalendar.css */
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Adjust as needed */
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .add-event-btn {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .add-event-btn:hover {
+    background-color: #27ae60;
+  }
+  
+  .calendar {
+    flex: 1;
+    overflow: hidden;
+  }
+  

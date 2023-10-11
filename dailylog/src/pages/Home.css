@@ -25,7 +25,7 @@ body {
     margin: 0;
   }
   .topborder{
-    background-color: #1baf59;
+    background-color:  #5f0e0e;
     height: 50px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -43,4 +43,7 @@ body {
     height: 100%;
     margin-left: 10px;
     
+  }
+  .enrolled{
+    color: #ffffff;
   }

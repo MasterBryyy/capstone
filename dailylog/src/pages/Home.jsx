@@ -12,7 +12,7 @@ function Home() {
       <div className='form-container'>
         <div className='topborder'>
         <div className='ptcontainer'>
-        <p>Total enrolled</p>
+        <p className='enrolled'>Total enrolled</p>
         </div>  
         </div>
         <div className='pcontainer'>

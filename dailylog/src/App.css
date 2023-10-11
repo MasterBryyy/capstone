@@ -27,7 +27,7 @@
   justify-content: flex-start;
   align-items: center;
   border-bottom: #961f1f solid 2px;
-  background-color: #1baf59;
+  background-color:  #5f0e0e;
   
   
 }
@@ -66,7 +66,7 @@
   margin-left: 1rem;
   font-size: 1.5rem;
   background: none;
-  color: #000;
+  color: #ffffff;
 }
 
 .nav-menu {

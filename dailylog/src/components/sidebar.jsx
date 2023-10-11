@@ -26,7 +26,7 @@ export const SidebarData = [
   
   {
     title: "Reports",
-    path: "/",
+    path: "/report",
     icon: <FaIcons.FaList />,
     cName: "nav-text",
   },

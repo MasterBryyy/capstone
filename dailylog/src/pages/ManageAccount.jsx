@@ -1,6 +1,5 @@
 // ManageAccount.jsx
 import React from 'react';
-import './table.css';
 import './ManageAccount.css';
 
 function ManageAccount() {
