@@ -26,7 +26,6 @@ function Attendance() {
 
   return (
     <div className="attendance-container">
-      <h2>Attendance</h2>
       <table>
         <thead>
           <tr>
