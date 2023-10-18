@@ -4,8 +4,9 @@ import Home from './pages/Home';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from './components/navbar';
 import ManageAccount from './pages/ManageAccount';
-import Attendance from './pages/Attendance';
+
 import Report from './pages/Report';
+import ManageAttendance from './pages/ManageAttendance';
 function App() {
   const AppLayout = () => (
     <>
@@ -24,7 +25,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="/home" element={<Home />} />
             <Route path="/manage" element={<ManageAccount />} />
-            <Route path="/attendance" element={<Attendance />} />
+            <Route path="/attendance" element={<ManageAttendance />} />
             <Route path="/report" element={<Report />} />
           </Route> 
         </Routes>

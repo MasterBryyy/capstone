@@ -1,22 +1,83 @@
 .report-container {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.day-buttons {
+  margin-top: 20px;
+}
+
+.day-buttons button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.year-selection,
+.section-dropdown {
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.report-table th {
+  background-color: #5c1010;
+  color: white;
+}
+/* ... (previous styles) */
+
+.button-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.print-button {
+  padding: 10px 20px;
+  background-color: #5f0e0b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.print-button:hover {
+  background-color: #27ae60;
+}
+/* Hide the button when printing */
+@media print {
+  .button-container {
+    display: none;
   }
-  
-  .report-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .report-table th,
-  .report-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .report-table th {
-    background-color: #5c1010;
-  }
-  
+}
+/* ... (remaining styles) */
