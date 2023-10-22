@@ -7,6 +7,7 @@ const Report = () => {
   const [students, setStudents] = useState([
     { id: 1, name: 'John Doe', presentTime: '10:00 AM', exitTime: '02:00 PM', gradeLevel: '10', section: 'A' },
     { id: 2, name: 'Jane Smith', presentTime: '09:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'B' },
+    { id: 3, name: 'ED BESIYOS', presentTime: '07:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'A' },
     // Add more students as needed
   ]);
 
@@ -21,23 +22,26 @@ const Report = () => {
 
   const handleGradeLevelChange = (e) => {
     setSelectedGradeLevel(e.target.value);
+    console.log('Selected Grade Level:', selectedGradeLevel);
     // Add logic to update calendar based on the selected grade level
   };
 
   const handleSectionChange = (e) => {
     setSelectedSection(e.target.value);
+    console.log('Selected Section:', selectedSection);
     // Add logic to update calendar based on the selected section
   };
 
   const handlePrint = () => {
     // Add logic to print the attendance for the specific date, grade level, and section
+    console.log('Generating report...');
+    // Your print logic here
     window.print();
   };
 
   return (
     <div className="report-container">
       <h1>Student Report</h1>
-
       <div className="filter-container">
         <label>Select Date:</label>
         <DatePicker selected={selectedDate} onChange={handleDateChange} />
@@ -53,7 +57,6 @@ const Report = () => {
         <select value={selectedSection} onChange={handleSectionChange}>
           <option value="A">A</option>
           <option value="B">B</option>
-          <option value="BSIT 41A">BSIT 41A</option>
           {/* Add more sections as needed */}
         </select>
       </div>
@@ -76,16 +79,22 @@ const Report = () => {
           </tr>
         </thead>
         <tbody>
-          {students.map((student) => (
-            <tr key={student.id}>
-              <td>{student.id}</td>
-              <td>{student.name}</td>
-              <td>{student.gradeLevel}</td>
-              <td>{student.section}</td>
-              <td>{student.presentTime}</td>
-              <td>{student.exitTime}</td>
-            </tr>
-          ))}
+          {students
+            .filter(
+              (student) =>
+                (!selectedGradeLevel || student.gradeLevel === selectedGradeLevel) &&
+                (!selectedSection || student.section === selectedSection)
+            )
+            .map((student) => (
+              <tr key={student.id}>
+                <td>{student.id}</td>
+                <td>{student.name}</td>
+                <td>{student.gradeLevel}</td>
+                <td>{student.section}</td>
+                <td>{student.presentTime}</td>
+                <td>{student.exitTime}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

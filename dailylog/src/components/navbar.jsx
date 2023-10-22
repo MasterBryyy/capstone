@@ -11,19 +11,21 @@ import { IconContext } from "react-icons";
 function Navbar() {
   const [sidebar, setSidebar] = useState(false);
   const [showLogoutForm, setShowLogoutForm] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
+
+  const showSidebar = () => setSidebar(true);
+  const closeSidebar = () => setSidebar(false);
 
   return (
     <>
       <IconContext.Provider value={{ color: "undefined" }}>
         <div className="navbar">
-          <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
+          <Link to="#" className="menu-bars" onMouseEnter={showSidebar} onMouseLeave={closeSidebar}>
+            <FaIcons.FaBars />
           </Link>
           
         </div>
-        <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-          <ul className="nav-menu-items" onClick={showSidebar}>
+        <nav className={sidebar ? "nav-menu active" : "nav-menu"} onMouseEnter={showSidebar} onMouseLeave={closeSidebar}>
+          <ul className="nav-menu-items">
             <li className="navbar-toggle">
               <Link to="#" className="menu-bars">
                 <AiIcons.AiOutlineClose />

@@ -26,7 +26,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border-bottom: #961f1f solid 2px;
+  border-bottom:  #5f0e0e solid 2px;
   background-color:  #5f0e0e;
   
   
@@ -70,7 +70,7 @@
 }
 
 .nav-menu {
-  background:rgb(122, 31, 31);
+  background:#5f0e0ee3;
   width: 250px;
   height: 100vh;
   display: flex;
@@ -80,6 +80,8 @@
   left: -100%;
   transition: 850ms;
   z-index: 2;
+
+  backdrop-filter: blur(5px);
 }
 
 .nav-menu.active {
