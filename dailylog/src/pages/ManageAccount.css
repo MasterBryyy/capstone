@@ -54,3 +54,9 @@ tbody tr:hover {
 .addbtn:hover {
   background-color: #27ae60;
 }
+
+.button-con{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Confirmation from './Confirmation';
 import './MyCalendar.css';
 
 const localizer = momentLocalizer(moment);
@@ -14,6 +15,29 @@ const MyCalendar = () => {
     time: '',
     start: null,
   });
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [confirmationCallback, setConfirmationCallback] = useState(null);
+
+  // Function to show the confirmation dialog
+  const showDeleteConfirmation = (event) => {
+    setConfirmationMessage(`Are you sure you want to delete "${event.title}"?`);
+    setConfirmationCallback(() => handleEventDelete(event));
+    setShowConfirmation(true);
+  };
+
+  // Function to handle confirmation
+  const handleConfirmation = () => {
+    if (confirmationCallback) {
+      confirmationCallback();
+    }
+    setShowConfirmation(false);
+  };
+
+  // Function to handle cancellation
+  const handleCancelConfirmation = () => {
+    setShowConfirmation(false);
+  };
 
   const formatEvent = (event) => ({
     ...event,
@@ -31,10 +55,11 @@ const MyCalendar = () => {
   };
 
   const handleEventDelete = (event) => {
-    const isConfirmed = window.confirm('Are you sure you want to delete this event?');
-    if (isConfirmed) {
+    setConfirmationMessage(`Are you sure you want to delete "${event.title}"?`);
+    setConfirmationCallback(() => {
       setEvents((prevEvents) => prevEvents.filter((e) => e.id !== event.id));
-    }
+    });
+    setShowConfirmation(true);
   };
 
   const handleEventFormSubmit = () => {
@@ -99,7 +124,7 @@ const MyCalendar = () => {
 
   return (
     <div style={{ height: '700px' }}>
-      <Calendar
+      <Calendar className='calcal'
         localizer={localizer}
         events={events.map(formatEvent)}
         startAccessor="start"
@@ -112,6 +137,13 @@ const MyCalendar = () => {
         }}
       />
       {isEventFormOpen && EventForm}
+      {showConfirmation && (
+        <Confirmation
+          message={confirmationMessage}
+          onConfirm={handleConfirmation}
+          onCancel={handleCancelConfirmation}
+        />
+      )}
     </div>
   );
 };

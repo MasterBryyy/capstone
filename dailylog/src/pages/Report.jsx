@@ -5,9 +5,9 @@ import './Report.css';
 
 const Report = () => {
   const [students, setStudents] = useState([
-    { id: 1, name: 'John Doe', presentTime: '10:00 AM', exitTime: '02:00 PM', gradeLevel: '10', section: 'A' },
-    { id: 2, name: 'Jane Smith', presentTime: '09:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'B' },
-    { id: 3, name: 'ED BESIYOS', presentTime: '07:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'A' },
+    { id: 1, name: 'John Doe', date: '2023-10-31', presentTime: '10:00 AM', exitTime: '02:00 PM', gradeLevel: '10', section: 'A' },
+    { id: 2, name: 'Jane Smith',date: '2023-11-01', presentTime: '09:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'B' },
+    { id: 3, name: 'ED BESIYOS',date: '2023-10-02', presentTime: '07:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'A' },
     // Add more students as needed
   ]);
 
@@ -44,8 +44,7 @@ const Report = () => {
       <h1>Student Report</h1>
       <div className="filter-container">
         <label>Select Date:</label>
-        <DatePicker selected={selectedDate} onChange={handleDateChange} />
-
+        <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat={"yyyy-MM-dd"}/>
         <label>Select Grade Level:</label>
         <select value={selectedGradeLevel} onChange={handleGradeLevelChange}>
           <option value="10">10</option>
@@ -83,18 +82,18 @@ const Report = () => {
             .filter(
               (student) =>
                 (!selectedGradeLevel || student.gradeLevel === selectedGradeLevel) &&
-                (!selectedSection || student.section === selectedSection)
-            )
-            .map((student) => (
-              <tr key={student.id}>
-                <td>{student.id}</td>
-                <td>{student.name}</td>
-                <td>{student.gradeLevel}</td>
-                <td>{student.section}</td>
-                <td>{student.presentTime}</td>
-                <td>{student.exitTime}</td>
-              </tr>
-            ))}
+                student.date === selectedDate.toISOString().split('T')[0] // Convert selected date to string in 'yyyy-MM-dd' format
+  )
+  .map((student) => (
+    <tr key={student.id}>
+      <td>{student.id}</td>
+      <td>{student.name}</td>
+      <td>{student.gradeLevel}</td>
+      <td>{student.section}</td>
+      <td>{student.presentTime}</td>
+      <td>{student.exitTime}</td>
+    </tr>
+  ))}
         </tbody>
       </table>
     </div>

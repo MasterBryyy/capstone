@@ -1,38 +1,66 @@
 import React, { useState } from 'react';
 import './Adduser.css';
-
+import { db } from '../Config/firestore';
+import { collection, addDoc } from 'firebase/firestore';
+import { Form } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 function Adduser({ onClose, onAddUser }) {
   const [formData, setFormData] = useState({
     name: '',
     studentNumber: '',
-    grade: '',
+    gradeLevel: '',
     section: '',
-    contactNumber: '', // Added the contactNumber field
+    contactNumber: '',
+  
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to handle form submission, e.g., send data to the server
+
+    // Add logic to handle form submission
     console.log('Form submitted:', formData);
-    // Reset the form after submission if needed
+
+    // Add the user to Firestore
+    try {
+      
+
+      const docRef = await addDoc(collection(db, 'account'), {
+        name: formData.name,
+        studentNumber: formData.studentNumber,
+        gradeLevel: formData.gradeLevel,
+        section: formData.section,
+        contactNumber: formData.contactNumber,
+       
+
+
+      });
+
+      console.log('Document written with ID: ', docRef.id);
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
+
+    // Notify the parent component about the new user
     onAddUser({
       ...formData,
-      id: Math.random(), // Generating a random id for the new user
     });
+
+    // Reset the form after submission if needed
     setFormData({
       name: '',
       studentNumber: '',
-      grade: '',
+      gradeLevel: '',
       section: '',
       contactNumber: '',
+     
     });
   };
-
   return (
     <div className='usemain'>
       <button className="exit-btn" onClick={onClose}>
@@ -66,8 +94,8 @@ function Adduser({ onClose, onAddUser }) {
           <input
             placeholder=""
             type="text"
-            name="grade"
-            value={formData.grade}
+            name="gradeLevel"
+            value={formData.gradeLevel}
             onChange={handleChange}
             required
           />
@@ -95,6 +123,8 @@ function Adduser({ onClose, onAddUser }) {
           />
           <label htmlFor="contactNumber">Contact Number:</label>
         </div>
+
+          
 
         <button className='addstubtn' type="submit">
           Add

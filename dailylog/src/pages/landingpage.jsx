@@ -1,11 +1,36 @@
 import React, { useState } from 'react';
 import './landingpage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import background from '../assets/testing.png'
 import Logo from '../assets/logo.png'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
 function LandingPage() {
   const [showForm, setShowForm] = useState(true);
+  const navigate = useNavigate();
 
+  const handleLoginForSubmit = async (e) => {
+    e.preventDefault();
+
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+
+    try {
+      const auth = getAuth();
+      // Use signInWithEmailAndPassword to authenticate the user
+      await signInWithEmailAndPassword(auth, email, password);
+
+      // Navigate to the next page after successful authentication
+      navigate('/home'); // Update with the desired route
+    } catch (error) {
+      // Handle authentication errors
+      console.error('Authentication error:', error.code, error.message);
+      // You can display an error message to the user if needed
+    }
+  };
+
+  
   return (
     <div className='maincontainer'>
       <img src={Logo} alt="logo" className='logo-container'/>
@@ -18,7 +43,7 @@ function LandingPage() {
   </div>
       <div className="login-box">
         <p>WELCOME</p>
-        <form>
+        <form onSubmit={handleLoginForSubmit}>
           <div className="user-box">
             <input required="" name="" type="text" />
             <label>Email</label>
@@ -28,7 +53,7 @@ function LandingPage() {
             <label>Password</label>
           </div>
           <div className='submitbtncontainer'>
-          <Link to="/home" className="submit-button">
+          <Link className="submit-button" to="/home">
             <span></span>
             <span></span>
             <span></span>
