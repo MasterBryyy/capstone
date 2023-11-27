@@ -239,3 +239,13 @@
   height: 200px;
 }
 
+.scan-btn-div {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.scanbtn {
+  background: red;
+  color: #000;
+}

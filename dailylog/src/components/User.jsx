@@ -40,32 +40,24 @@ const User = () => {
     return `QRCode: ${text}`;
   };
 
-  const handleAddUser = async (newUser) => {
-    try {
-      // Generate the QR code
-      const qrCode = generateQRCode(`Name: ${newUser.name} Student No: ${newUser.studentNumber} Contact No: ${newUser.contactNumber}`);
+  const handleAddUser = (newUser) => {
+    // Generate the QR code
+    const qrCode = generateQRCode(`Name: ${newUser.name} Student No: ${newUser.studentNumber} Contact No: ${newUser.contactNumber}`);
   
-      // Add the user to Firestore with the QR code
-      const docRef = await addDoc(collection(db, 'account'), {
+    // Update the local state with the new user
+    setData((prevData) => [
+      ...prevData,
+      {
+        id: lastUsedId + 1, // Update this logic based on how you generate IDs
         ...newUser,
         qrCode: qrCode,
-      });
+      },
+    ]);
   
-      console.log('Document written with ID: ', docRef.id);
-  
-      // Update the local state with the new user
-      setData((prevData) => [
-        ...prevData,
-        {
-          id: docRef.id, // Use Firestore-generated ID
-          ...newUser,
-          qrCode: qrCode,
-        },
-      ]);
-    } catch (error) {
-      console.error('Error adding document: ', error);
-    }
+    // Update the lastUsedId state if needed
+    setLastUsedId((prevId) => prevId + 1);
   };
+  
 
   const handleDelete = async (id) => {
     confirmAlert({

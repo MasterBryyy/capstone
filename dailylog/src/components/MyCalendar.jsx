@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useCallback, useEffect,useRef } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -12,30 +13,36 @@ const MyCalendar = () => {
   const [isEventFormOpen, setEventFormOpen] = useState(false);
   const [eventForm, setEventForm] = useState({
     title: '',
-    time: '',
     start: null,
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState('');
-  const [confirmationCallback, setConfirmationCallback] = useState(null);
+  const confirmationCallbackRef = useRef(null);
+  
+  useEffect(() => {
+    // This effect will run after each render
+    if (confirmationCallbackRef.current) {
+      confirmationCallbackRef.current(); // Execute the callback
+      confirmationCallbackRef.current = null; // Reset the ref to null after deletion
+    }
+  }, [confirmationCallbackRef]); // Run the effect when confirmationCallbackRef changes
 
-  // Function to show the confirmation dialog
-  const showDeleteConfirmation = (event) => {
-    setConfirmationMessage(`Are you sure you want to delete "${event.title}"?`);
-    setConfirmationCallback(() => handleEventDelete(event));
-    setShowConfirmation(true);
-  };
+
 
   // Function to handle confirmation
-  const handleConfirmation = () => {
-    if (confirmationCallback) {
-      confirmationCallback();
+  const handleConfirmation = useCallback(() => {
+    console.log("Confirmation callback before:", confirmationCallbackRef.current);
+    if (confirmationCallbackRef.current) {
+      confirmationCallbackRef.current();
     }
+    console.log("Confirmation callback after:", confirmationCallbackRef.current);
     setShowConfirmation(false);
-  };
+  }, []);
+
 
   // Function to handle cancellation
   const handleCancelConfirmation = () => {
+    confirmationCallbackRef.current = null; // Reset confirmationCallbackRef to null
     setShowConfirmation(false);
   };
 
@@ -56,25 +63,22 @@ const MyCalendar = () => {
 
   const handleEventDelete = (event) => {
     setConfirmationMessage(`Are you sure you want to delete "${event.title}"?`);
-    setConfirmationCallback(() => {
+    confirmationCallbackRef.current = () => {
       setEvents((prevEvents) => prevEvents.filter((e) => e.id !== event.id));
-    });
+    };
     setShowConfirmation(true);
   };
+  
 
   const handleEventFormSubmit = () => {
-    const { title, time, start } = eventForm;
-    if (title && time && start) {
-      const startWithTime = moment(start).set({
-        hour: parseInt(time.split(':')[0], 10),
-        minute: parseInt(time.split(':')[1], 10),
-      });
-      const endWithTime = moment(startWithTime).add(1, 'hour');
-
+    const { title, start, days } = eventForm;
+    if (title && start && days) {
+      const endWithTime = moment(start).add(days, 'days');
+  
       const newEvent = formatEvent({
-        id: events.length + 1, // Assuming you have a unique ID for each event
-        start: startWithTime,
-        end: endWithTime,
+        id: events.length + 1,
+        start: moment(start).toDate(),
+        end: endWithTime.toDate(),
         title,
       });
 
@@ -96,9 +100,10 @@ const MyCalendar = () => {
         onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })}
       />
       <input
-        type="time"
-        value={eventForm.time}
-        onChange={(e) => setEventForm({ ...eventForm, time: e.target.value })}
+        type="number"
+        placeholder="Number of days"
+        value={eventForm.days}
+        onChange={(e) => setEventForm({ ...eventForm, days: e.target.value })}
       />
       <button onClick={handleEventFormSubmit}>Save</button>
       <button onClick={handleEventFormCancel}>Cancel</button>
@@ -149,3 +154,4 @@ const MyCalendar = () => {
 };
 
 export default MyCalendar;
+

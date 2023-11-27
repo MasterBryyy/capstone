@@ -161,8 +161,11 @@ button:hover {
   padding: 2px;
   cursor: pointer;
   z-index: 1;
-
+  display: inline-block; /* Display events in a row */
+  width: 100%; /* Ensure events take up the full width */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
 }
+
 
 .rbc-event:hover {
   background-color: #c82333; /* Change this to your desired background color on hover */
