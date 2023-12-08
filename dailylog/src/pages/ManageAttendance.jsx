@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Attendance.css';
+import { db } from '../Config/firestore';
+import { collection, getDocs, deleteDoc, doc, addDoc } from 'firebase/firestore';
 
 function ManageAttendance() {
   const navigate = useNavigate();
-  const [selectedGradeLevel, setSelectedGradeLevel] = useState(''); // State to store selected grade level
-  const [selectedSection, setSelectedSection] = useState(''); // State to store selected section
+  const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
+  const [selectedSection, setSelectedSection] = useState('');
+  const [students, setStudents] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const qrscannedCollection = collection(db, 'qrscanned');
+        const snapshot = await getDocs(qrscannedCollection);
 
-  // Your student data
-  const [students, setStudents] = useState([
-    { studentNumber: '001', name: 'John Doe', contactNumber: '123-456-7890', presentTime: ' ', extiTime: ' ', gradeLevel: '10', section: 'A' },
-    { studentNumber: '002', name: 'Jane Doe', contactNumber: '987-654-3210', present: false, exit: false, gradeLevel: '11', section: 'B' },
-    { studentNumber: '003', name: 'Ivan', contactNumber: '696969', present: false, exit: false, gradeLevel: '12', section: 'C' },
-  ]);
+        const scannedData = snapshot.docs.map(doc => doc.data());
+        setStudents(scannedData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
   const handleTimeChange = (index, field, value) => {
     setStudents((prevStudents) =>
       prevStudents.map((student, i) =>
@@ -21,21 +33,10 @@ function ManageAttendance() {
     );
   };
 
-  const handleToggleAttendance = (index) => {
-    // Your existing logic
-  };
-
-  const handleToggleExit = (index) => {
-    // Your existing logic
-  };
-
   const handleReport = () => {
-    // Your existing logic
     console.log('Generating report...');
-
     navigate('/report');
   };
-
   return (
     <div className='main-attendance'>
       <div className='filter-container'>
@@ -50,7 +51,7 @@ function ManageAttendance() {
         <label>Select Section:</label>
         <select value={selectedSection} onChange={(e) => setSelectedSection(e.target.value)}>
           <option value=''>All</option>
-          <option value='A'>Section A</option>
+          <option value='Mapagmahal'>Mapagmahal</option>
           <option value='B'>Section B</option>
           <option value='C'>Section C</option>
         </select>
@@ -64,10 +65,11 @@ function ManageAttendance() {
         <table>
           <thead>
             <tr>
-              <th>Student Number</th>
+              <th>Contact No</th>
               <th>Name</th>
-              <th>Grade Level</th>
+              <th>Student No</th>
               <th>Section</th>
+              <th>Grade Level</th>
               <th>Time In</th>
               <th>Time Out</th>
             </tr>
@@ -81,24 +83,13 @@ function ManageAttendance() {
               )
               .map((student, index) => (
                 <tr key={index}>
-                  <td>{student.studentNumber}</td>
+                  <td>{student.contactNo}</td>
                   <td>{student.name}</td>
-                  <td>{student.gradeLevel}</td>
+                  <td>{student.studentNo}</td>
                   <td>{student.section}</td>
-                  <td>
-                    <input
-                      type='time'
-                      value={student.presentTime}
-                      onChange={(e) => handleTimeChange(index,'presentTime', e.targe.value )}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type='time'
-                      value={student.exitTime}
-                      onChange={(e) => handleTimeChange(index,'exitTime', e.targe.value )}
-                    />
-                  </td>
+                  <td>{student.gradeLevel}</td>
+                  <td>{student.timeIn}</td>
+                  <td>{student.timeOut}</td>
                 </tr>
               ))}
           </tbody>

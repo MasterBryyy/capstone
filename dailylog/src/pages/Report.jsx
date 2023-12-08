@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Report.css';
-
+import { db } from '../Config/firestore';
+import { collection, getDocs, deleteDoc, doc, addDoc } from 'firebase/firestore';
 const Report = () => {
-  const [students, setStudents] = useState([
-    { id: 1, name: 'John Doe', date: '2023-10-31', presentTime: '10:00 AM', exitTime: '02:00 PM', gradeLevel: '10', section: 'A' },
-    { id: 2, name: 'Jane Smith',date: '2023-11-01', presentTime: '09:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'B' },
-    { id: 3, name: 'ED BESIYOS',date: '2023-10-02', presentTime: '07:30 AM', exitTime: '03:30 PM', gradeLevel: '11', section: 'A' },
-    // Add more students as needed
-  ]);
+
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedGradeLevel, setSelectedGradeLevel] = useState('10');
   const [selectedSection, setSelectedSection] = useState('A');
+
+
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const qrscannedCollection = collection(db, 'qrscanned');
+        const snapshot = await getDocs(qrscannedCollection);
+
+        const scannedData = snapshot.docs.map(doc => doc.data());
+        setStudents(scannedData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -46,17 +60,19 @@ const Report = () => {
         <label>Select Date:</label>
         <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat={"yyyy-MM-dd"}/>
         <label>Select Grade Level:</label>
-        <select value={selectedGradeLevel} onChange={handleGradeLevelChange}>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          {/* Add more grade levels as needed */}
+        <select value={selectedGradeLevel} onChange={(e) => setSelectedGradeLevel(e.target.value)}>
+          <option value=''>All</option>
+          <option value='10'>Grade 10</option>
+          <option value='11'>Grade 11</option>
+          <option value='12'>Grade 12</option>
         </select>
 
         <label>Select Section:</label>
-        <select value={selectedSection} onChange={handleSectionChange}>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          {/* Add more sections as needed */}
+        <select value={selectedSection} onChange={(e) => setSelectedSection(e.target.value)}>
+          <option value=''>All</option>
+          <option value='Mapagmahal'>Mapagmahal</option>
+          <option value='B'>Section B</option>
+          <option value='C'>Section C</option>
         </select>
       </div>
 
@@ -69,31 +85,33 @@ const Report = () => {
       <table className="report-table">
         <thead>
           <tr>
-            <th>Student Number</th>
-            <th>Name</th>
-            <th>Grade Level</th>
-            <th>Section</th>
-            <th>Time of Present</th>
-            <th>Time of Exit</th>
+              <th>Contact No</th>
+              <th>Name</th>
+              <th>Student No</th>
+              <th>Section</th>
+              <th>Grade Level</th>
+              <th>Time In</th>
+              <th>Time Out</th>
           </tr>
         </thead>
         <tbody>
-          {students
-            .filter(
-              (student) =>
-                (!selectedGradeLevel || student.gradeLevel === selectedGradeLevel) &&
-                student.date === selectedDate.toISOString().split('T')[0] // Convert selected date to string in 'yyyy-MM-dd' format
-  )
-  .map((student) => (
-    <tr key={student.id}>
-      <td>{student.id}</td>
-      <td>{student.name}</td>
-      <td>{student.gradeLevel}</td>
-      <td>{student.section}</td>
-      <td>{student.presentTime}</td>
-      <td>{student.exitTime}</td>
-    </tr>
-  ))}
+        {students
+              .filter(
+                (student) =>
+                  (!selectedGradeLevel || student.gradeLevel === selectedGradeLevel) &&
+                  (!selectedSection || student.section === selectedSection)
+              )
+              .map((student, index) => (
+                <tr key={index}>
+                  <td>{student.contactNo}</td>
+                  <td>{student.name}</td>
+                  <td>{student.studentNo}</td>
+                  <td>{student.section}</td>
+                  <td>{student.gradeLevel}</td>
+                  <td>{student.timeIn}</td>
+                  <td>{student.timeOut}</td>
+                </tr>
+              ))}
         </tbody>
       </table>
     </div>
