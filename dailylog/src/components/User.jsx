@@ -42,7 +42,7 @@ const User = () => {
 
   const handleAddUser = (newUser) => {
     // Generate the QR code
-    const qrCode = generateQRCode(`Name: ${newUser.name} Student No: ${newUser.studentNumber} Contact No: ${newUser.contactNumber}`);
+    const qrCode = generateQRCode(`Name: ${newUser.name} \n Student No: ${newUser.studentNumber} \n Contact No: ${newUser.contactNumber}`);
   
     // Update the local state with the new user
     setData((prevData) => [
