@@ -1,9 +1,10 @@
 /* table.css */
 
 .table {
-  max-width: 1000px;
+  max-width: 1400px;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
 }
 
 /* Styles for the table head */
@@ -59,4 +60,96 @@ tbody tr:hover {
   display: flex;
   justify-content: center;
   gap: 2rem;
+}
+/* Add this to your stylesheet or define inline styles */
+.view-btn {
+  background-color: #4caf50; /* Green background color */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add some padding */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 5px;
+  margin-top: 10px; /* Optional: Add rounded corners */
+}
+
+.view-btn:hover {
+  background-color: #45a049; /* Darker green color on hover */
+}
+.delete-btn {
+  background-color: #ff0000; /* Red background color */
+  color: #ffffff; /* White text color */
+  border: none;
+  padding: 10px 20px; /* Adjust padding as needed */
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+.delete-btn:hover {
+  background-color: #cc0000; /* Darker red on hover */
+}
+.edit-btn {
+  background-color: #f5f5f5; /* Green background color */
+  color: rgb(0, 0, 0); /* White text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add some padding */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 5px;
+  margin-top: 10px; /* Optional: Add rounded corners */
+}
+.select-all-container {
+  margin-bottom: 5px; /* Adjust margin as needed */
+}
+
+/* Add styling for the SELECT ALL button */
+.select-all-container button {
+  background-color: #f5f5f5; /* Green background color */
+  color: rgb(0, 0, 0); /* White text color */
+  border: black; /* Remove border */
+  padding: 5px 10px; /* Add some padding */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 5px;
+  margin-top: 10px; /* Optional: Add rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.select-all-container button:hover {
+  background-color: #cf332e; /* Darker green color on hover */
+}
+
+.search-input {
+  width: 1000px; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the search bar horizontally */
+  display: block; /* Ensure it takes full width */
+  margin-bottom: 20px; /* Add some space below the search bar */
+}
+.search-input:hover {
+  background-color: #f5f5f5;
+}
+.archive-btn{
+  background-color: #5c1010;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+width: 137px;
+  /* Position the button */
+  position: absolute;
+  top: 140px;
+  right: 20px;
+}
+.archive-btn:hover {
+  background-color: #27ae60;
+}
+.archive-btn-container {
+  margin-top: 20px;
+}
+.filter-dropdowns{
+  width: 1000px; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the search bar horizontally */
+  display: block; /* Ensure it takes full width */
+  margin-bottom: 20px; 
 }

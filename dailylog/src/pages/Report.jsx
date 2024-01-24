@@ -1,55 +1,58 @@
+
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Report.css';
 import { db } from '../Config/firestore';
-import { collection, getDocs, deleteDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
+import { format } from 'date-fns'; // Import the format function from date-fns
+
 const Report = () => {
-
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedGradeLevel, setSelectedGradeLevel] = useState('10');
-  const [selectedSection, setSelectedSection] = useState('A');
-
-
+  const [selectedDate, setSelectedDate] = useState(new Date()); // Ensure a default date is set
+const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
+const [selectedSection, setSelectedSection] = useState(''); // Ensure a default section is set
   const [students, setStudents] = useState([]);
+
   useEffect(() => {
+    console.log('Effect triggered');
     const fetchData = async () => {
       try {
         const qrscannedCollection = collection(db, 'qrscanned');
         const snapshot = await getDocs(qrscannedCollection);
-
-        const scannedData = snapshot.docs.map(doc => doc.data());
+  
+        const scannedData = snapshot.docs
+  .map(doc => doc.data())
+  .filter(student =>
+    !selectedDate ||
+    (student.scannedDate && format(new Date(selectedDate), 'MM/dd/yyyy') === format(new Date(student.scannedDate), 'MM/dd/yyyy'))
+  );
+  
+          
+          scannedData.sort((a, b) => a.name.localeCompare(b.name));
         setStudents(scannedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+  
+    fetchData(); 
+  }, [selectedDate, selectedGradeLevel, selectedSection]);
 
-    fetchData();
-  }, []); // Empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    // Add logic to update calendar based on the selected date
   };
 
   const handleGradeLevelChange = (e) => {
     setSelectedGradeLevel(e.target.value);
-    console.log('Selected Grade Level:', selectedGradeLevel);
-    // Add logic to update calendar based on the selected grade level
   };
 
   const handleSectionChange = (e) => {
     setSelectedSection(e.target.value);
-    console.log('Selected Section:', selectedSection);
-    // Add logic to update calendar based on the selected section
   };
 
   const handlePrint = () => {
-    // Add logic to print the attendance for the specific date, grade level, and section
     console.log('Generating report...');
-    // Your print logic here
     window.print();
   };
 
@@ -58,9 +61,10 @@ const Report = () => {
       <h1>Student Report</h1>
       <div className="filter-container">
         <label>Select Date:</label>
-        <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat={"yyyy-MM-dd"}/>
+        <DatePicker selected={selectedDate} onChange={handleDateChange} dateFormat={"yyyy-MM-dd"} />
+
         <label>Select Grade Level:</label>
-        <select value={selectedGradeLevel} onChange={(e) => setSelectedGradeLevel(e.target.value)}>
+        <select value={selectedGradeLevel} onChange={handleGradeLevelChange}>
           <option value=''>All</option>
           <option value='10'>Grade 10</option>
           <option value='11'>Grade 11</option>
@@ -68,7 +72,7 @@ const Report = () => {
         </select>
 
         <label>Select Section:</label>
-        <select value={selectedSection} onChange={(e) => setSelectedSection(e.target.value)}>
+        <select value={selectedSection} onChange={handleSectionChange}>
           <option value=''>All</option>
           <option value='Mapagmahal'>Mapagmahal</option>
           <option value='B'>Section B</option>
@@ -85,33 +89,33 @@ const Report = () => {
       <table className="report-table">
         <thead>
           <tr>
-              <th>Contact No</th>
-              <th>Name</th>
-              <th>Student No</th>
-              <th>Section</th>
-              <th>Grade Level</th>
-              <th>Time In</th>
-              <th>Time Out</th>
+            <th>Student No</th>
+            <th>Name</th>
+            <th>Contact No</th>
+            <th>Section</th>
+            <th>Grade Level</th>
+            <th>Time In</th>
+            <th>Time Out</th>
           </tr>
         </thead>
         <tbody>
-        {students
-              .filter(
-                (student) =>
-                  (!selectedGradeLevel || student.gradeLevel === selectedGradeLevel) &&
-                  (!selectedSection || student.section === selectedSection)
-              )
-              .map((student, index) => (
-                <tr key={index}>
-                  <td>{student.contactNo}</td>
-                  <td>{student.name}</td>
-                  <td>{student.studentNo}</td>
-                  <td>{student.section}</td>
-                  <td>{student.gradeLevel}</td>
-                  <td>{student.timeIn}</td>
-                  <td>{student.timeOut}</td>
-                </tr>
-              ))}
+          {students
+            .filter(
+              (student) =>
+                (!selectedGradeLevel || student.gradeLevel === selectedGradeLevel) &&
+                (!selectedSection || student.section === selectedSection)
+            )
+            .map((student, index) => (
+              <tr key={index}>
+                <td>{student.studentNo}</td>
+                <td>{student.name}</td>
+                <td>{student.contactNo}</td>
+                <td>{student.section}</td>
+                <td>{student.gradeLevel}</td>
+                <td>{student.timeIn}</td>
+                <td>{student.timeOut}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
@@ -119,3 +123,4 @@ const Report = () => {
 };
 
 export default Report;
+

@@ -204,35 +204,37 @@
 }
 .text-overlay {
   position: absolute;
-  top: 43%;
+  top: 40%;
   left: 68%;
   transform: translate(-50%, -50%);
-  z-index: 1; /* Make sure the text is above the background image */
+  z-index: 1;
   text-align: center;
-  font-size: 99px;
+  font-size: 85px;
   font-weight: bold;
   color: #742d2d;
   margin-bottom: 10px;
   width: 1000px;
   text-shadow: -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff, 3px 3px 0 #fff, 0 0 10px #000;
 }
+
 .text-overlay-2 {
-  /* Position and style for the second text overlay */
   position: absolute;
-  top: 150%;
-  left: 50%;
+  top: 63%;
+  left: 68%;
   transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
-  font-size: 30px;
+  font-size: 45px;
   font-weight: bold;
   color: #742d2d;
   margin-bottom: 10px;
   width: 1000px;
-  padding: 10px; /* Add some padding to the text */
+  padding: 10px;
   text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff, 0 0 10px #000;
   font-family: 'Kaushan Script', cursive;
+  font-style: italic;
 }
+
 .logo-container{
   position: absolute;
   width: 200px;
@@ -246,6 +248,91 @@
 }
 
 .scanbtn {
-  background: red;
+  background: transparent;
   color: #000;
+  border: none;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: cursive;
+}
+
+.scanbtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* FontAwesome icon styling for the QR code scanner */
+.scanbtn svg {
+  margin-right: 10px; /* Adjust the margin to provide spacing between icon and text */
+  color: #3498db; /* Set the color to your desired color for the scanner icon */
+  font-size: 30px; /* Adjust the font size as needed */
+}
+
+/* Additional styling for the FontAwesome icon to make it circular */
+.scanbtn svg {
+  border-radius: 50%;
+  padding: 8px;
+  background-color: #fff;
+}
+
+/* Add this style for the Facebook-style button */
+.logintbtn {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  background:  rgba(83, 21, 21, 0.5);
+  color: #fff; /* Text color */
+  padding: 10px 20px;
+  font-size: 20px;
+  
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.logintbtn:hover {
+  background: #a01414; /* Darker blue on hover */
+}
+
+/* Add this style to create the continuous animated border effect */
+.logintbtn::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+ 
+}
+.login-box .user-box {
+  position: relative;
+  margin-bottom: 30px; /* Adjust the margin to provide spacing between email and password inputs */
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #ffffff;
+  margin-bottom: 5px; /* Adjust the margin to provide spacing between input and error message */
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+.login-box .user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
 }

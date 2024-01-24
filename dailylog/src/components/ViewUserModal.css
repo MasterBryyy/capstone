@@ -1,0 +1,71 @@
+/* In ViewUserModal.css */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal.open {
+    display: flex;
+  }
+  
+  .modal-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 400px;
+  }
+  
+  .user-details {
+    margin-bottom: 20px;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .user-table td:first-child {
+    width: 120px;
+  }
+  
+  .user-table td:last-child {
+    font-weight: bold;
+  }
+  
+  .close-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .close-btn:hover {
+    background-color: #2980b9;
+  }
+    /* Add the following styles for the image */
+    .user-image {
+      text-align: center;
+      margin-bottom: 15px; /* Adjust the margin as needed */
+    }
+  
+    .user-image img {
+      max-width: 100%; /* Ensure the image doesn't exceed the container width */
+      max-height: 300px; /* Set a maximum height for the image as needed */
+      border-radius: 8px; /* Add border-radius for a rounded appearance */
+    }

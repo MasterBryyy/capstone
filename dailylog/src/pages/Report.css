@@ -1,5 +1,5 @@
 .report-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -41,19 +41,21 @@ select {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  
 }
 
 .report-table th,
 .report-table td {
   border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+  padding: 12px;
+  text-align: center; /* Change this line */
 }
 
 .report-table th {
   background-color: #5c1010;
   color: white;
 }
+
 /* ... (previous styles) */
 
 .button-container {

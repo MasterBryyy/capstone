@@ -3,15 +3,15 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import firebaseConfig from './firebaseConfig'; // Import the Firebase configuration
+import { getStorage } from 'firebase/storage'; // Make sure to import getStorage
+import firebaseConfig from './firebaseConfig';
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
-console.log('Firestore instance:', db); // Add this line for debugging
+console.log('Firestore instance:', db);
 
-export { db, auth };
+export { db, auth, storage };

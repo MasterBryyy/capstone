@@ -1,27 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Home.css';
-import MyCalendar from '../components/MyCalendar';
-import { Link } from 'react-router-dom';
+import StudentInfo from '../components/studentinfo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 function Home() {
-  
-
   return (
     <div className='main-home-div'>
-      <div className='totaldiv'>
-      <div className='form-container'>
-        <div className='topborder'>
-        <div className='ptcontainer'>
-        <p className='enrolled'>Total enrolled</p>
-        </div>  
-        </div>
-        <div className='pcontainer'>
-        <p>3/Total enrolled</p>
-        </div>        
-      
-      </div>
-      </div>
-      <MyCalendar/>
+      <StudentInfo />
     </div>
   );
 }

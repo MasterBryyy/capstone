@@ -1,25 +1,23 @@
 .modaldiv {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: transparent;
+  z-index: 0;
+  pointer-events: auto;
+}
+.webcam-content {
+  margin: 5px; /* Add margin as needed */
 }
 
-.modal-content {
-  text-align: center;
-  padding: 20px;
-  height: 700px;
-  width: 550px;
-}
+
 
 .close {
   position: absolute;
@@ -38,27 +36,94 @@
 
 .webcam-container {
   width: 100%;
-  max-width: 400px;
-  margin: 15px 0;
+  max-width: 700px;
+  margin: 5px; /* Remove any margins */
+  position: absolute;
+  margin-top: 100px;
+  left: 0;
 }
+
 
 .scan-button {
   padding: 10px 20px;
+  min-width: 150px; /* Set a fixed minimum width */
   background-color: #4caf50;
   color: #fff;
   border: none;
   cursor: pointer;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .modal-content2 {
-  margin-top: 20px;
+  gap: 50;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
+  padding: 20px;
+  height: 700px;
+  width: 700px;
+  margin-top: 90px;
+  margin-right: 500px;
 }
 
-p {
-  font-size: 18px;
-  margin-bottom: 10px;
+.modal-content2 p {
+  margin: 5px 0; /* Adjust the margin as needed */
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.user-image {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.user-image img {
+  margin-bottom: 20px;
+  width: 400px; /* Adjust the width as needed */
+  height: 500px; /* Adjust the height as needed */
+  border-radius: 50%; /* Make the image circular */
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+.modal-content2 table td {
+  text-align: center;
+  padding: 10px; /* Add padding to space out the content inside cells */
+  border: 1px solid #ddd; /* Add border to create the lines */
+  font-weight: bold;
+}
+.modal-content2 table.student-table td {
+  text-align: center;
+  padding: 10px; /* Add padding to space out the content inside cells */
+}
+.modal-content2 table tr {
+  border: 1px solid #ddd; /* Add border to create the lines */
+}
+
+.modal-content2 table tr:last-child {
+  border-bottom: none; /* Remove border from the last row to avoid double lines */
+}
+.student-list-button {
+  padding: 10px 20px;
+  min-width: 150px; /* Set a fixed minimum width */
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  
+}
+  
+.student-list-modal {
+  top: 150px;
+  right: -250px; /* Adjust the left distance as needed */
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  position: fixed; /* Change to fixed */
+  width: 500px;
+  max-height: 70vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }

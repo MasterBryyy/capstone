@@ -28,6 +28,7 @@
   align-items: center;
   border-bottom:  #5f0e0e solid 2px;
   background-color:  #5f0e0e;
+  z-index: 5;
   
   
 }
@@ -67,6 +68,7 @@
   font-size: 1.5rem;
   background: none;
   color: #ffffff;
+  z-index: 5;
 }
 
 .nav-menu {
