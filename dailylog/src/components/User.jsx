@@ -143,7 +143,7 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
                 console.log(`Document moved to archive with ID: ${archiveDocRef.id}`);
               }));
     
-              // Update the data state
+              // Update the data state by filtering out the deleted items
               const updatedData = data.filter((item) => !itemsToDelete.includes(item.id));
               setData(updatedData);
     
@@ -361,6 +361,78 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
     return isNameMatch && isGradeLevelMatch && isSectionMatch;
   });
 };
+const handleDeleteAll = async () => {
+  confirmAlert({
+    title: 'Confirm to Delete',
+    message: 'Are you sure you want to delete all selected items?',
+    buttons: [
+      {
+        label: 'Yes',
+        onClick: async () => {
+          try {
+            // Move selected items to the "archive" collection
+            await Promise.all(selectedItems.map(async (id) => {
+              const docRef = doc(db, 'account', id);
+              const documentData = (await getDoc(docRef)).data();
+
+              // Delete document from the original collection
+              await deleteDoc(docRef);
+
+              // Add document to the "archive" collection
+              const archiveDocRef = await addDoc(collection(db, 'archive'), documentData);
+              console.log(`Document moved to archive with ID: ${archiveDocRef.id}`);
+            }));
+
+            // Update the data state
+            const updatedData = data.filter((item) => !selectedItems.includes(item.id));
+            setData(updatedData);
+
+            // Clear selected items
+            setSelectAll(false);
+            setSelectedItems([]);
+          } catch (error) {
+            console.error('Error deleting document:', error);
+          }
+        },
+      },
+      {
+        label: 'No',
+        onClick: () => {},
+      },
+    ],
+  });
+};
+const downloadQRCode = (qrCodeData, fileName) => {
+  const canvas = document.querySelector('canvas');
+  const dataUrl = canvas.toDataURL();
+
+  // Create a Blob object from the data URL
+  const blob = dataURItoBlob(dataUrl);
+
+  // Create a temporary anchor element
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${fileName}.png`;
+
+  // Open file manager or prompt user to choose download location
+  link.click();
+};
+
+
+// Function to convert data URI to Blob object
+const dataURItoBlob = (dataURI) => {
+  const byteString = atob(dataURI.split(',')[1]);
+  const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+  
+  return new Blob([arrayBuffer], { type: mimeString });
+};
+
 
   return (
     <div>
@@ -386,7 +458,10 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
        <div className="filter-dropdowns">
        <label>Select Grade Level:</label>
        <select value={selectedGradeLevel} onChange={handleGradeLevelChange}>
-          <option value=''>All</option>
+       <option value=''>All</option>
+          <option value='7'>Grade 7</option>
+          <option value='8'>Grade 8</option>
+          <option value='9'>Grade 9</option>
           <option value='10'>Grade 10</option>
           <option value='11'>Grade 11</option>
           <option value='12'>Grade 12</option>
@@ -394,10 +469,14 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
 
         <label>Select Section:</label>
         <select value={selectedSection} onChange={handleSectionChange}>
-          <option value=''>All</option>
+        <option value=''>All</option>
           <option value='Mapagmahal'>Mapagmahal</option>
+          <option value='Zara'>Zara</option>
+          <option value='Jacinto'>Jacinto</option>
+          <option value='Balagtas'>Balagtas</option>
+          <option value='Tolentino'>Tolentino</option>
+          <option value='Napkil'>Napkil</option>
           <option value='BSIT'>BSIT</option>
-          <option value='C'>Section C</option>
         </select>
       </div>
     </div>
@@ -408,10 +487,16 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
   <tr>
     <th>
     <div className='select-all-container'>
-        <button onClick={handleSelectAll}>
-          {selectAll ? 'Deselect All' : 'SELECT ALL'}
-        </button>
-      </div>
+  <button onClick={handleSelectAll}>
+    {selectAll ? 'Deselect All' : 'SELECT ALL'}
+  </button>
+  {selectedItems.length > 0 && (
+    <button className='delete-btn' onClick={() => handleDeleteAll()}>
+      Delete Selected
+    </button>
+  )}
+</div>
+
     </th>
             <th>Name</th>
             <th>Student Number</th>
@@ -423,6 +508,7 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
           </tr>
         </thead>
         <tbody>
+          
           
         {filterData().map((item) => (
   <tr key={item.id}>
@@ -438,16 +524,11 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
               <td>{item.contactNumber}</td>
               <td>{item.gradeLevel}</td>
               <td>{item.section}</td>
-              <td onClick={() => setShowQR(!showQR)}>
-                {showQR ? (
-                  <QRCode value={item.qrCode} />
-                ) : (
-                  <span>
-                    <i className='eye-icon'>👁️</i>
-                    QR Code Hidden
-                  </span>
-                )}
-              </td>
+              
+              <td onClick={() => downloadQRCode(item.qrCode, `${item.name}_${item.studentNumber}`)}>
+  <QRCode value={item.qrCode} />
+</td>
+
               <td>
                 <div className='button-con'>
                 <button className='edit-btn' onClick={() => handleEdit(item)}>
@@ -491,6 +572,7 @@ const [selectedGradeLevel, setSelectedGradeLevel] = useState('');
                 <td>{item.contactNumber}</td>
                 <td>{item.gradeLevel}</td>
                 <td onClick={() => setShowQR(!showQR)}>
+
                 {showQR ? (
                   <QRCode value={item.qrCode} />
                 ) : (

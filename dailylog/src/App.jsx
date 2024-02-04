@@ -7,6 +7,7 @@ import ManageAccount from './pages/ManageAccount';
 
 import Report from './pages/Report';
 import ManageAttendance from './pages/ManageAttendance';
+
 function App() {
   const AppLayout = () => (
     <>

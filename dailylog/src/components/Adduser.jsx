@@ -21,18 +21,44 @@ function Adduser({ onClose, onAddUser }) {
   const [sectionError, setSectionError] = useState('');
   const [contactNumberError, setContactNumberError] = useState('');
   const [image, setImage] = useState(null);  // State to hold the selected image file
+  
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileType = file.type.split('/')[0]; // Get the file type (e.g., 'image', 'application', etc.)
+      if (fileType !== 'image') {
+        // If the file type is not an image, show an error message
+        toast.error('Only image files are supported.');
+        // Clear the input field to prevent submitting non-image files
+        e.target.value = null;
+        // Reset the image state to null
+        setImage(null);
+        return;
+      }
+      // If the file is an image, set it in the state
+      setImage(file);
+    }
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Handle changes in the image input
+
+    // Check if the uploaded file is an image
     if (name === 'image') {
-      setImage(e.target.files[0]);
-    }
-    // Validation for the "Name" field (doesn't allow numbers)
-    if (name === 'name' && /\d/.test(value)) {
-      setNameError('Name cannot contain numbers');
-      return;
-    } else {
-      setNameError('');
+      const file = e.target.files[0];
+      if (file) {
+        const fileType = file.type.split('/')[0]; // Get the file type (e.g., 'image', 'application', etc.)
+        if (fileType !== 'image') {
+          // If the file type is not an image, show an error message
+          toast.error('Only image files are supported.');
+          // Clear the input field to prevent submitting non-image files
+          e.target.value = null;
+          // Reset the image state to null
+          setImage(null);
+          return;
+        }
+        // If the file is an image, set it in the state
+        setImage(file);
+      }
     }
 
     // Validation for the "Contact Number" field (allows only numeric input)

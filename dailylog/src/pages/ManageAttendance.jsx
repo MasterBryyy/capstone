@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
 import './Attendance.css';
 import { db } from '../Config/firestore';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { format } from 'date-fns';
 
 Modal.setAppElement('#root');
@@ -16,57 +16,54 @@ function ManageAttendance() {
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [students, setStudents] = useState([]);
- 
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const qrscannedCollection = collection(db, 'qrscanned');
         const snapshot = await getDocs(qrscannedCollection);
-    
+
         const selectedDateISOString = selectedDate
           ? selectedDate.toISOString().split('T')[0]
           : null;
-    
-          const scannedData = snapshot.docs
+
+        const scannedData = snapshot.docs
           .map((doc) => doc.data())
           .filter((student) => {
             const scannedDate = new Date(student.scannedDate);
-        
-            // Check if scannedDate is a valid date and it's defined
+
             if (!student.scannedDate || isNaN(scannedDate.getTime())) {
               console.warn(`Invalid date for student: ${student.name}`);
-              return false; // Skip invalid or undefined dates
+              return false;
             }
-        
+
             const dateCondition =
               !selectedDateISOString ||
               (scannedDate.toISOString().split('T')[0] === selectedDateISOString);
-        
+
             const gradeLevelCondition =
               !selectedGradeLevel || selectedGradeLevel === student.gradeLevel;
-        
+
             const sectionCondition = !selectedSection || selectedSection === student.section;
-        
-            return dateCondition && gradeLevelCondition && sectionCondition;
+
+            return dateCondition && gradeLevelCondition && sectionCondition && student.timeIn && student.timeOut;
           });
-    
+
         scannedData.sort((a, b) => {
           const nameA = a.name || '';
           const nameB = b.name || '';
           return nameA.localeCompare(nameB);
         });
-    
+
         setStudents(scannedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    
 
     fetchData();
   }, [selectedDate, selectedGradeLevel, selectedSection]);
-  
+
   const handleTimeChange = (index, field, value) => {
     setStudents((prevStudents) =>
       prevStudents.map((student, i) =>
@@ -79,8 +76,6 @@ function ManageAttendance() {
     console.log('Generating report...');
     navigate('/report');
   };
-
-  
 
   return (
     <div className='main-attendance'>
@@ -97,6 +92,9 @@ function ManageAttendance() {
           onChange={(e) => setSelectedGradeLevel(e.target.value)}
         >
           <option value=''>All</option>
+          <option value='7'>Grade 7</option>
+          <option value='8'>Grade 8</option>
+          <option value='9'>Grade 9</option>
           <option value='10'>Grade 10</option>
           <option value='11'>Grade 11</option>
           <option value='12'>Grade 12</option>
@@ -109,22 +107,23 @@ function ManageAttendance() {
         >
           <option value=''>All</option>
           <option value='Mapagmahal'>Mapagmahal</option>
-          <option value='B'>Section B</option>
-          <option value='C'>Section C</option>
+          <option value='Zara'>Zara</option>
+          <option value='Jacinto'>Jacinto</option>
+          <option value='Balagtas'>Balagtas</option>
+          <option value='Tolentino'>Tolentino</option>
+          <option value='Napkil'>Napkil</option>
           <option value='BSIT'>BSIT</option>
-        </select>
 
+        </select>
 
         <button className='report-button' onClick={handleReport}>
           Generate Report
         </button>
       </div>
-     
-     
 
       <div className='table-container'>
         {/* Current Attendance Table */}
-        <h2>Current Attendance</h2>
+        
         <table>
           <thead>
             <tr>
@@ -138,7 +137,7 @@ function ManageAttendance() {
               <th>Date</th>
             </tr>
           </thead>
-          <tbody> 
+          <tbody>
             {students.map((student, index) => (
               <tr key={index}>
                 <td>{student.studentNo}</td>
